@@ -29,7 +29,7 @@ def executor_a_d(result_code: str, h: str, user_id:str ) -> str:
                 # Извлекаем имя файла (последнюю часть пути)
                 filename = path.split("/")[-1]
                 # Заменяем путь на корректный
-                corrected_code = corrected_code.replace(path, f"{PATH_TO}/{user_id}/{filename}")
+                corrected_code = corrected_code.replace(path, f"{PATH_TO}{user_id}/{filename}")
         
         # Выполнение исправленного кода
         loc = {}
@@ -98,7 +98,7 @@ def executor_a_d_vis(result_code: str, h: str, user_id:str ) -> pd.DataFrame:
                 # Извлекаем имя файла (последнюю часть пути)
                 filename = path.split("/")[-1]
                 # Заменяем путь на корректный
-                corrected_code = corrected_code.replace(path, f"{PATH_TO}/{user_id}/{filename}")
+                corrected_code = corrected_code.replace(path, f"{PATH_TO}{user_id}/{filename}")
                 #corrected_code = corrected_code.replace(path, f"{filename}")
         
         # Локальное пространство имен для выполнения кода
@@ -129,9 +129,7 @@ def executor_a_d_vis(result_code: str, h: str, user_id:str ) -> pd.DataFrame:
 @views.route('/execute-python-vis', methods=['POST'])
 def execute_visualization():
     token = request.headers.get("Authorization")
-    
-    # Логируем токен для отладки
-    print("Токен из запроса:", token)
+
     
     # Проверяем токен
     if token != SECRET_TOKEN:
@@ -172,8 +170,6 @@ def execute_analysis():
 
     token = request.headers.get("Authorization")
     
-    # Логируем токен для отладки
-    print("Токен из запроса:", token)
     
     # Проверяем токен
     if token != SECRET_TOKEN:
