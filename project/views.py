@@ -152,7 +152,7 @@ def execute_visualization():
     if user is None: 
         return jsonify({"error": "User not found"}), 404
 
-    is_valid, error_message = check_file_names_in_code(result_code, f"-{user_id}-")
+    is_valid, error_message = check_file_names_in_code(result_code)
     if not is_valid:
         return jsonify({"error": error_message}), 400
     
@@ -160,7 +160,7 @@ def execute_visualization():
     # запросить функцию для обновления данных пользователя - условие, в названии должна быть подстрока -id-
     
     # Вызываем функцию executor_a_d
-    result = executor_a_d_vis(result_code, h)
+    result = executor_a_d_vis(result_code, h,  f"-{user_id}-")
     
     # Возвращаем результат
     if "error" in result.columns:
@@ -195,12 +195,12 @@ def execute_analysis():
     if user is None: 
         return jsonify({"error": "User not found"}), 404
     
-    is_valid, error_message = check_file_names_in_code(result_code, f"-{user_id}-")
+    is_valid, error_message = check_file_names_in_code(result_code)
     if not is_valid:
         return jsonify({"error": error_message}), 400
 
     # Вызываем функцию executor_a_d
-    result = executor_a_d(result_code, h)
+    result = executor_a_d(result_code, h,  f"-{user_id}-")
     
     # Возвращаем результат
     return jsonify({"result": result})
