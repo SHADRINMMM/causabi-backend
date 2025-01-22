@@ -17,7 +17,20 @@ SECRET_TOKEN = os.getenv('SECRET_TOKEN')
 
 views = Blueprint('views', __name__)
 #выполнение кода python - часть анализ 
-def executor_a_d(result_code: str, h: str, user_id:str ) -> str:
+def executor_a_d(result_code: str, h: str, user_id: str) -> dict:
+    """
+    Выполняет переданный код и возвращает результат в унифицированном формате.
+
+    Параметры:
+    - result_code: Код на Python для выполнения.
+    - h: Имя переменной, которую нужно вернуть.
+    - user_id: ID пользователя для корректировки путей к файлам.
+
+    Возвращает:
+    - Словарь с ключами "type" и "data":
+        - "type": Тип результата ("dataframe", "string", "error").
+        - "data": Данные (DataFrame, строка или сообщение об ошибке).
+    """
     try:
         # Находим все пути к файлам в коде
         file_paths = re.findall(r"[\'\"](.*?\.(csv|json|parquet))[\'\"]", result_code)
@@ -29,7 +42,7 @@ def executor_a_d(result_code: str, h: str, user_id:str ) -> str:
                 # Извлекаем имя файла (последнюю часть пути)
                 filename = path.split("/")[-1]
                 # Заменяем путь на корректный
-                corrected_code = corrected_code.replace(path, f"{PATH_TO}{user_id}/{filename}")
+                corrected_code = corrected_code.replace(path, f"{PATH_TO}/{user_id}/{filename}")
         
         # Выполнение исправленного кода
         loc = {}
@@ -37,15 +50,20 @@ def executor_a_d(result_code: str, h: str, user_id:str ) -> str:
         
         # Проверка, что переменная h существует
         if h not in loc:
-            return f"Error: The variable '{h}' is missing in the generated code."
+            return {"type": "error", "data": f"The variable '{h}' is missing in the generated code."}
         
         k = loc[h]
-        return str(k)
-    except Exception as e:
-        return f"Traceback (most recent call last):\n{str(e)}"
+        
+        # Определяем тип результата
+        if isinstance(k, pd.DataFrame):
+            return {"type": "dataframe", "data": k.to_dict(orient="records")}
+        elif isinstance(k, (str, int, float, list, dict)):
+            return {"type": "string", "data": str(k)}
+        else:
+            return {"type": "error", "data": f"Unsupported data type: {type(k)}"}
     
-
-import re
+    except Exception as e:
+        return {"type": "error", "data": f"Traceback (most recent call last):\n{str(e)}"}    
 
 def check_file_names_in_code(code: str, substring: str) -> tuple[bool, str]:
     """
@@ -198,5 +216,8 @@ def execute_analysis():
     # Вызываем функцию executor_a_d
     result = executor_a_d(result_code, h,  user_id)
     
-    # Возвращаем результат
-    return jsonify({"result": result})
+    # Возвращаем результат в зависимости от типа
+    if result["type"] == "error":
+        return jsonify({"error": result["data"]}), 400
+    else:
+        return jsonify({"result": result["data"]})
