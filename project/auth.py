@@ -18,6 +18,7 @@ def create_user():
     
     # Логируем токен для отладки
     print("Токен из запроса:", token)
+    print("Токен из запроса:", SECRET_TOKEN)
     
     # Проверяем токен
     if token != SECRET_TOKEN:
