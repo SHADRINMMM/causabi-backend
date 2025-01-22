@@ -17,7 +17,7 @@ def create_user():
     # Проверка IP-адреса
     client_ip = request.remote_addr
     if client_ip != ALLOWED_IP:
-        return jsonify({"error": "Access denied"}), 403  # 403 Forbidden
+        return jsonify({"error": f"Access denied {client_ip}"}), 403  # 403 Forbidden
 
     # Получение данных из запроса
     data = request.json
