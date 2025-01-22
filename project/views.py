@@ -9,7 +9,7 @@ from .models import  User
 
 PATH_TO = os.getenv('PATH_TO')
 ALLOWED_IP = os.getenv('ALLOWED_IP') 
-
+SECRET_TOKEN = os.getenv('SECRET_TOKEN') 
 
 views = Blueprint('views', __name__)
 #выполнение кода python - часть анализ 
@@ -124,10 +124,14 @@ def executor_a_d_vis(result_code: str, h: str, user_id:str ) -> pd.DataFrame:
 
 @views.route('/execute-python-vis', methods=['POST'])
 def execute_visualization():
-    ## проверка IP-адреса
-    client_ip = request.remote_addr
-    if client_ip != ALLOWED_IP:
-        return jsonify({"error": "Access denied"}), 403  # 403 Forbidden
+    token = request.headers.get("Authorization")
+    
+    # Логируем токен для отладки
+    print("Токен из запроса:", token)
+    
+    # Проверяем токен
+    if token != SECRET_TOKEN:
+        return jsonify({"error": "Access denied. Invalid token."}), 403
 
     # Получаем данные из запроса
     data = request.json
@@ -162,10 +166,14 @@ def execute_visualization():
 @views.route('/execute-python-analysis', methods=['POST'])
 def execute_analysis():
 
-    ## проверка IP-адреса
-    client_ip = request.remote_addr
-    if client_ip != ALLOWED_IP:
-        return jsonify({"error": "Access denied"}), 403  # 403 Forbidden
+    token = request.headers.get("Authorization")
+    
+    # Логируем токен для отладки
+    print("Токен из запроса:", token)
+    
+    # Проверяем токен
+    if token != SECRET_TOKEN:
+        return jsonify({"error": "Access denied. Invalid token."}), 403
 
     # Получаем данные из запроса
     data = request.json

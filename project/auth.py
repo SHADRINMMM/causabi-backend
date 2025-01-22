@@ -9,15 +9,19 @@ import os
 
 # Разрешенный IP-адрес
 ALLOWED_IP = os.getenv('ALLOWED_IP')  # Замените на нужный IP-адрес
-
+SECRET_TOKEN = os.getenv('SECRET_TOKEN')
 
 auth = Blueprint('auth', __name__)
 @auth.route('/create_user', methods=['POST'])
 def create_user():
-    # Проверка IP-адреса
-    client_ip = request.remote_addr
-    if client_ip != ALLOWED_IP:
-        return jsonify({"error": f"Access denied {client_ip}"}), 403  # 403 Forbidden
+    token = request.headers.get("Authorization")
+    
+    # Логируем токен для отладки
+    print("Токен из запроса:", token)
+    
+    # Проверяем токен
+    if token != SECRET_TOKEN:
+        return jsonify({"error": "Access denied. Invalid token."}), 403
 
     # Получение данных из запроса
     data = request.json
