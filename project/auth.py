@@ -18,10 +18,6 @@ auth = Blueprint('auth', __name__)
 def create_user():
     token = request.headers.get("Authorization")
     
-    # Логируем токен для отладки
-    print("Токен из запроса:", token)
-    print("Токен из запроса:", SECRET_TOKEN)
-    
     # Проверяем токен
     if token != SECRET_TOKEN:
         return jsonify({"error": "Access denied. Invalid token."}), 403
