@@ -6,6 +6,8 @@ from sqlalchemy.sql import func
 from .models import User
 import os 
 
+from dotenv import load_dotenv
+load_dotenv()
 
 # Разрешенный IP-адрес
 ALLOWED_IP = os.getenv('ALLOWED_IP')  # Замените на нужный IP-адрес

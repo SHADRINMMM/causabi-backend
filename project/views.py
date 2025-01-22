@@ -7,6 +7,10 @@ from flask import Blueprint, render_template, request, jsonify, make_response, r
 from flask_login import login_required, current_user, login_user
 from .models import  User
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 PATH_TO = os.getenv('PATH_TO')
 ALLOWED_IP = os.getenv('ALLOWED_IP') 
 SECRET_TOKEN = os.getenv('SECRET_TOKEN') 
