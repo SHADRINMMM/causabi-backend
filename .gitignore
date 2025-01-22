@@ -1,0 +1,17 @@
+*.db
+./project/__pycache__ 
+.env
+# PyCharm
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+
+# Кеш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Виртуальное окружение
+.causabi-env
