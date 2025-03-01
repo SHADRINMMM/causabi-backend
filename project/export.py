@@ -71,6 +71,9 @@ PASSWORD = os.getenv('PASSWORD')
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
 
+print(DBNAME,USER,PASSWORD,HOST,PORT)
+
+
 database_config = {
     "dbname": DBNAME,
     "user": USER,
