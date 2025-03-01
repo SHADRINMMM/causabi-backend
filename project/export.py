@@ -71,7 +71,6 @@ PASSWORD = os.getenv('PASSWORD')
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
 
-print(DBNAME,USER_DB,PASSWORD,HOST,PORT)
 
 
 database_config = {
