@@ -66,7 +66,7 @@ def export_tables_to_csv(database_config, tables):
 
 
 DBNAME = os.getenv('DBNAME')
-USER_DB = os.getenv('USER') 
+USER_DB = os.getenv('USER_DB') 
 PASSWORD = os.getenv('PASSWORD') 
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
