@@ -3,8 +3,8 @@ import re
 import pandas as pd
 import numpy as np
 
-from flask import Blueprint, render_template, request, jsonify, make_response, redirect, url_for, stream_with_context,stream_template,Response,send_file,render_template_string
-from flask_login import login_required, current_user, login_user
+from flask import Blueprint,  request,jsonify#,render_template, jsonify, make_response, redirect, url_for, stream_with_context,stream_template,Response,send_file,render_template_string
+#from flask_login import login_required, current_user, login_user
 from .models import  User
 
 from dotenv import load_dotenv
@@ -116,7 +116,7 @@ def executor_a_d_vis(result_code: str, h: str, user_id:str ) -> pd.DataFrame:
                 # Извлекаем имя файла (последнюю часть пути)
                 filename = path.split("/")[-1]
                 # Заменяем путь на корректный
-                corrected_code = corrected_code.replace(path, f"{PATH_TO}{user_id}/{filename}")
+                corrected_code = corrected_code.replace(path, f"{PATH_TO}/{user_id}/{filename}")
                 #corrected_code = corrected_code.replace(path, f"{filename}")
         
         # Локальное пространство имен для выполнения кода
@@ -164,8 +164,7 @@ def execute_visualization():
     result_code = data['result_code']
     h = data['h']
     user_id = data['user_id']
-    user = User.query.filter_by(id = user_id).first()
-    if user is None: 
+    if os.path.isdir(PATH_TO+'/'+user_id):
         return jsonify({"error": "User not found"}), 404
 
     is_valid, error_message = check_file_names_in_code(result_code, f"-{user_id}-")
@@ -204,9 +203,7 @@ def execute_analysis():
     result_code = data['result_code']
     h = data['h']
     user_id = data['user_id']
-    user = User.query.filter_by(id = user_id).first()
-
-    if user is None: 
+    if os.path.isdir(PATH_TO+'/'+user_id):
         return jsonify({"error": "User not found"}), 404
     
     is_valid, error_message = check_file_names_in_code(result_code,  f"-{user_id}-")
