@@ -66,17 +66,17 @@ def export_tables_to_csv(database_config, tables):
 
 
 DBNAME = os.getenv('DBNAME')
-USER = os.getenv('USER') 
+USER_DB = os.getenv('USER') 
 PASSWORD = os.getenv('PASSWORD') 
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
 
-print(DBNAME,USER,PASSWORD,HOST,PORT)
+print(DBNAME,USER_DB,PASSWORD,HOST,PORT)
 
 
 database_config = {
     "dbname": DBNAME,
-    "user": USER,
+    "user": USER_DB,
     "password": PASSWORD,
     "host": HOST,
     "port": PORT,
