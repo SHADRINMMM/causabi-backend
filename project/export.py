@@ -6,7 +6,7 @@ import csv
 from dotenv import load_dotenv
 load_dotenv()
 
-
+PATH_TO = os.getenv('PATH_TO')
 def export_table_to_csv(conn, table_name: str, output_file: str, user_id: int = None):
     cursor = conn.cursor()
 
@@ -56,7 +56,7 @@ def export_tables_to_csv(database_config, tables):
 
         for table in tables:
             try:
-                output_file = f"tmp/{user['email']}/-{user['email']}-{table}.csv"
+                output_file = f"{PATH_TO}/{user['email']}/-{user['email']}-{table}.csv"
                 export_table_to_csv(conn, table, output_file, user["id"])
             except Exception as e:
                 # в лог и сигнал sentry
