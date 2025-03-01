@@ -77,6 +77,7 @@ database_config = {
     "password": PASSWORD,
     "host": HOST,
     "port": PORT,
+    'sslmode': 'require'
 }
 
 tables = ["orders", "bikes", "models", "brands"]
