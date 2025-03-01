@@ -242,7 +242,7 @@ def get_csv_files(directory):
 @views.route('/get-tables-info', methods=['POST'])
 def get_info():
     token = request.headers.get("Authorization")
-
+    print(1)
     
     # Проверяем токен
     if token != SECRET_TOKEN:
