@@ -250,10 +250,8 @@ def get_info():
 
     # Получаем данные из запроса
     data = request.json
-    
-    # Проверяем, что все необходимые параметры переданы
-    if not data or 'result_code' not in data or 'h' not in data:
-        return jsonify({"error": "Missing 'result_code' or 'h' in request"}), 400
+
+
     
     # Извлекаем параметры
     user_id = data['user_id']
