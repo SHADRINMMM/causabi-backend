@@ -284,7 +284,7 @@ def execute_visualization():
     result_code = data['result_code']
     h = data['h']
     user_id = data['user_id']
-    if os.path.isdir(f'{PATH_TO}/{user_id}'):
+    if not os.path.isdir(f'{PATH_TO}/{user_id}'):
         return jsonify({"error": f"User not found {user_id}"}), 404
 
     is_valid, error_message = check_file_names_in_code(result_code, f"-{user_id}-")
@@ -323,7 +323,7 @@ def execute_analysis():
     result_code = data['result_code']
     h = data['h']
     user_id = data['user_id']
-    if os.path.isdir(f"{PATH_TO}/{user_id}"):
+    if not os.path.isdir(f"{PATH_TO}/{user_id}"):
         return jsonify({"error": f"User not found {user_id}"}), 404
     
     is_valid, error_message = check_file_names_in_code(result_code,  f"-{user_id}-")
