@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PATH_TO = os.getenv('PATH_TO')
+
 def export_table_to_csv(conn, table_name: str, output_file: str, user_id: int = None):
     cursor = conn.cursor()
 
@@ -63,6 +64,10 @@ def export_tables_to_csv(database_config, tables):
                 print(f"[{user['email']}] Произошла ошибка: {e}")
 
     conn.close()
+
+def export_user_tables_to_csv(user_id):
+    #todo: напиши функцию для получения всех табоиц для пользователя
+    print(1)
 
 
 DBNAME = os.getenv('DBNAME')

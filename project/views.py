@@ -3,7 +3,9 @@ import re
 import pandas as pd
 import numpy as np
 
-from flask import Blueprint, json,  request,jsonify#,render_template, jsonify, make_response, redirect, url_for, stream_with_context,stream_template,Response,send_file,render_template_string
+from flask import Blueprint, json,  request,jsonify
+
+from project.export import export_user_tables_to_csv#,render_template, jsonify, make_response, redirect, url_for, stream_with_context,stream_template,Response,send_file,render_template_string
 #from flask_login import login_required, current_user, login_user
 from .models import  User
 
@@ -239,6 +241,7 @@ def get_csv_files(directory):
         print(f"Error reading directory {directory}: {e}")
         return []
 
+
 @views.route('/get-tables-info', methods=['POST'])
 def get_info():
     token = request.headers.get("Authorization")
@@ -255,6 +258,7 @@ def get_info():
     
     # Извлекаем параметры
     user_id = data['user_id']
+    export_user_tables_to_csv(user_id)
     file_list = get_csv_files(f"{PATH_TO}/{user_id}")
     
     tables_info_json = get_tables_info(file_list, user_id)
