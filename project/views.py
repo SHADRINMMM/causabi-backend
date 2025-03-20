@@ -189,8 +189,8 @@ def get_tables_info(list_file_name, user_id):
                 if 'int' in dtype:
                     col_info['type'] = 'integer'
                     col_info['range'] = (int(df[column].min()), int(df[column].max()))
-                    if len(df) > 5:
-                        col_info['examples'] = df[column].dropna().sample(min(5, len(df))).tolist()
+                    if len(df[column].dropna()) >= 5:
+                        col_info['examples'] = df[column].dropna().sample(5).tolist()
                     else:
                         col_info['examples'] = df[column].dropna().tolist()
 
@@ -198,14 +198,14 @@ def get_tables_info(list_file_name, user_id):
                     col_info['type'] = 'datetime'
                     col_info['range'] = (df[column].min().strftime('%Y-%m-%d %H:%M:%S'),
                                         df[column].max().strftime('%Y-%m-%d %H:%M:%S'))
-                    if len(df) > 5:
-                        col_info['examples'] = df[column].dropna().sample(min(5, len(df))).dt.strftime('%Y-%m-%d %H:%M:%S').tolist()
+                    if len(df[column].dropna()) >= 5:
+                        col_info['examples'] = df[column].dropna().sample(5).dt.strftime('%Y-%m-%d %H:%M:%S').tolist()
                     else:
                         col_info['examples'] = df[column].dropna().dt.strftime('%Y-%m-%d %H:%M:%S').tolist()
                 elif 'object' in dtype:
                     col_info['type'] = 'string'
-                    if len(df) > 5:
-                        col_info['examples'] = df[column].dropna().sample(min(5, len(df))).tolist()
+                    if len(df[column].dropna()) >= 5:
+                        col_info['examples'] = df[column].dropna().sample(5).tolist()
                     else:
                         col_info['examples'] = df[column].dropna().tolist()
                 else:
